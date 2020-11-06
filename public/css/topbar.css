@@ -1,0 +1,64 @@
+@import "font-default.css";
+@import "ui-element-defaults.css";
+.top-bar-top {
+    background-color: var(--primary-dark);
+    height: 20px;
+    padding-top: 10px;
+    min-width: 100%;
+    margin: -10px -10px 0 -10px;
+    box-shadow: 2px 4px 100px #444;
+}
+.top-bar-second {
+    position: fixed;
+    top: 30px;
+    background-color: var(--primary);
+    /*background-color: #85c7ff;*/
+    height: 60px;
+    min-width: 100%;
+    margin: -10px -10px 0 -10px;
+    box-shadow: 2px 4px 25px #444;
+    opacity:0.999;
+}
+.headline {
+    font-size: 30px;
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+    font-family: Roboto, sans-serif;
+}
+#top-bar-date-time {
+    font-family: Roboto, sans-serif;
+    text-align: right;
+    padding-right: 10px;
+    color: var(--button-text-primary);
+    z-index: 99;
+    font-size: 12px;
+    margin-top: 2px;
+
+}
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+    position: fixed;
+    top: 0;
+    z-index: 99;
+    min-width: 100%;
+    /*grid-column: 1 / 5;*/
+    /*grid-row: 1 / 2;*/
+    /*flex: 1;*/
+    /*flex-direction: row;*/
+    /*display: flex;*/
+}
+.apod-header {
+    top: 90px;
+    height: 500px;
+    min-width: 110vw;
+    color: black;
+    overflow: hidden;
+}
+.apod-header h1 {
+        margin-top: 250px;
+        text-align: center;
+}
+.apod-h3-explanation {
+        text-align: center;
+}

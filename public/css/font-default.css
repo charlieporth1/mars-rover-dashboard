@@ -1,0 +1,56 @@
+/*This should never be imported direclty to the website html only to the css files*/
+@font-face {
+    font-family: 'Roboto';
+    src: url('https://fonts.googleapis.com/css?family=Roboto') format('css');
+    src: url('../Roboto/Roboto-Regular.ttf') format('truetype');
+ }
+
+font {
+    font-family: Roboto, sans-serif;
+    /*Color 8*/
+    color: black;
+}
+
+basefont {
+    font-family: Roboto, sans-serif;
+    /*Color*/
+    color: black;
+}
+
+@font-face {
+    font-family: 'RobotoBold';
+    src: url('https://fonts.googleapis.com/css?family=Roboto') format('css');
+    src: url('../Roboto/Roboto-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'RobotoLight';
+    src: local('Roboto Light'), local('Roboto-Light'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5fBBc4.woff2) format('woff2');
+    src: url('../Roboto/Roboto-Light.ttf') format('truetype');
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+div,
+textarea,
+text,
+span,
+figcaption,
+button,
+caption,
+input,
+label,
+select,
+html,
+p {
+    font-family: Roboto, sans-serif;
+    color: var(--text-primary);
+}
+
+a {
+    font-family: Roboto, sans-serif;
+}

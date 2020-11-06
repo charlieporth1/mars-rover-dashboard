@@ -1,0 +1,27 @@
+.m-design {
+    box-shadow: 2px 4px 7px #f0f0f0;
+}
+
+.holder {
+    margin-top: 10px;
+    padding: 5px;
+}
+.default-element-spacing {
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.entry {
+    background: rgba(59, 74, 107, .4);
+}
+
+:root {
+    --element-background-light: #f0f0f0;
+    --background-light: whitesmoke;
+    --primary: #4797ff;
+    --primary-dark: #006acb;
+    --primary-light: #85c7ff;
+    --text-primary: #000;
+    --button-primary: var(--primary-dark);
+    --button-text-primary: #fff;
+}
