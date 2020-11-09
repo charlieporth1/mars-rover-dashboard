@@ -2,7 +2,18 @@ let store = {
     user: { name: "World" },
     apod: '',
     selectedRover: 0, //0-2
+    roverData: {rover: "Curiosity",
+        data: {
+
+
+        },
+        images: [{
+            earthDate:"",
+            imgSrc: ""
+        }],
+    },
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
+
 };
 
 // add our markup to the page
@@ -16,20 +27,16 @@ const updateStore = async (store, newState) => {
 const render = async (root, state) => {
     root.innerHTML = App(state)
 };
-const App = (state) => {
-    let { rovers, apod } = state;
+const setRover = (rover) => {
 
-    return `
-     ${ImageOfTheDay(apod)}
-        <main>
-            ${Greeting(store.user.name)}
-            <section>
-             
-              
-            </section>
-        </main>
-        <footer></footer>
-    `
+};
+const renderRovers = (state) => { //RR for sort
+    let { rovers, selectedRover } = state;
+
+    return rovers.map((rover)=> {
+        return `<input type="radio" name="${rover}" id="${rover}" onclick="setRover();" />
+                <label for="${rover}">${rover}</label>`
+    })
 };
 // create content
 const App = (state) => {
@@ -111,4 +118,9 @@ const getImageOfTheDay = (state) => {
         .then(apod => updateStore(store, { apod }));
 
     return data
+};
+
+
+const getLatestRoverImages = (state) => {
+    let { apod } = state;
 };

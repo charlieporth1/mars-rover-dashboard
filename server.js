@@ -1,10 +1,12 @@
+
+
 require("dotenv").config();
-import { MarsRoverImage } from './DataTypes.js'
+const {Rover, MarsRoverImage, Camera}= require('./DataTypes.js');
 const apiKey = process.env.NASA_API_KEY || '';
 const nasaBaseApi = process.env.NASA_API_BASE_URL || '';
 const port = process.env.BACKEND_PORT || 3000;
 const immutable = require("immutable"); //global
-const {Map, Collection} = require("immutable");
+const {Map, Collection, fromJS, List} = require("immutable");
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -14,9 +16,7 @@ const helmet = require('helmet');
 const moment = require('moment')();
 const compression = require('compression');
 const cors = require("cors");
-
 const app = express();
-
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -59,6 +59,7 @@ app.get("/get-apod", async (req, res) => {
         console.log("get-apod error " + e);
         res.status(500).send()
     });
+
     if (jsonData) {
         const data = JSON.stringify(jsonData);
         res.status(200).send(data);
@@ -68,15 +69,21 @@ app.get("/get-apod", async (req, res) => {
     }
 
 });
-app.get("/get-latest-rover-photos", async (req, res)=> {
-    const url = generateNasaApiUrl("mars-photos/api/v1/rovers/curiosity/latest_photos");
+app.post("/get-latest-rover-photos", async (req, res)=> {
+    const requestRover = req.body.rover;
+
+    const url = generateNasaApiUrl(`mars-photos/api/v1/rovers/${requestRover.toString().toLowerCase()}/latest_photos`);
 
     const jsonData = await getData(url).catch((e) => {
         console.log("get-apod error " + e);
         res.status(500).send()
     });
     if (jsonData) {
-        res.status(200).send();
+        const roverData = Map(jsonData);
+        const cleanedObjectData = roverData.map((json) => {
+            return new MarsRoverImage(json);
+        });
+        res.status(200).send(cleanedObjectData.toJSON());
     } else {
         res.status(500).end("Empty Response");
     }
