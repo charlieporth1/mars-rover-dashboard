@@ -19,28 +19,14 @@
     <script src="https://polyfill.io/v3/polyfill.min.js" crossorigin="use-credentials"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default%2Cfetch"
             crossorigin="use-credentials"></script>
-    <script src="assets/js/dataTypes.js"></script>
     <script src="assets/js/utils.js"></script>
-    <script src="assets/js/includeHTML.js"></script>
 
     <script defer src="assets/js/toggleLoading.js"></script>
-    <script defer src="assets/js/app.js"></script>
     <script defer src="assets/js/display-dt.js"></script>
-
+    <script src="assets/js/DataTypes.js"></script>
 </head>
-<body onload="includeHTML();">
-<div class="top-bar-top sticky">
-    <p id="top-bar-date-time"></p>
-</div>
-<div class="top-bar-second">
-    <div class="holder headline">
-        CTP Dev Mars Rover Dashboard
-    </div>
-</div>
-<script src="client/header.js"></script>
-<main id="main-dashboard">
-    <div w3-include-html="assets/elements/html/pic-dashboard.html"></div>
-</main>
+<body id="root">
+<script async src="client/header.js"></script>
 
 <footer>
 </footer>

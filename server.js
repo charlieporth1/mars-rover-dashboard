@@ -65,11 +65,12 @@ app.get("/get-apod", async (req, res) => {
         res.status(200).send(data);
     } else {
 
-        res.status(500).end("Empty Response");
+        res.status(500).end();
     }
 
 });
 app.post("/get-latest-rover-photos", async (req, res)=> {
+    console.log(req);
     const requestRover = req.body.rover;
 
     const url = generateNasaApiUrl(`mars-photos/api/v1/rovers/${requestRover.toString().toLowerCase()}/latest_photos`);
@@ -83,9 +84,9 @@ app.post("/get-latest-rover-photos", async (req, res)=> {
         const cleanedObjectData = roverData.map((json) => {
             return new MarsRoverImage(json);
         });
-        res.status(200).send(cleanedObjectData.toJSON());
+        res.status(200).send(JSON.stringify(cleanedObjectData.toJSON()));
     } else {
-        res.status(500).end("Empty Response");
+        res.status(500).end();
     }
 });
 app.listen(port);

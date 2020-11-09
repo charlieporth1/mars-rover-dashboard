@@ -25,3 +25,16 @@
     --button-primary: var(--primary-dark);
     --button-text-primary: #fff;
 }
+.radio-button {
+    width: 10px;
+}
+.radio-button-label {
+    font-size: 10px;
+}
+.radio-btn-group {
+    display: flex;
+    flex-direction: row;
+}
+.radio-button-w-label {
+    margin: 30px;
+}

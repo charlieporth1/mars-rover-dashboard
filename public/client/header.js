@@ -1,17 +1,8 @@
 let store = {
-    user: { name: "World" },
-    apod: '',
-    selectedRover: 0, //0-2
-    roverData: {rover: "Curiosity",
-        data: {
-
-
-        },
-        images: [{
-            earthDate:"",
-            imgSrc: ""
-        }],
-    },
+    user: {name: "World"},
+    apod: {},
+    selectedRover: '',
+    roverData: {},
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
 
 };
@@ -19,36 +10,52 @@ let store = {
 // add our markup to the page
 const root = document.getElementById('root');
 
-const updateStore = async (store, newState) => {
+const updateStore = (store, newState) => {
     store = Object.assign(store, newState);
-    await render(root, store)
+    render(root, store);
 };
 
-const render = async (root, state) => {
-    root.innerHTML = App(state)
+const render = (root, state) => {
+    const html = App(state) || '';
+    if (html && html !== '') {
+        root.innerHTML = html;
+    }
 };
-const setRover = (rover) => {
-
+function loadRadioListener(rover)  {
+    const radioElement = document.getElementById(rover);
+    radioElement.addEventListener("click", () => {
+        getLatestRoverImages(store, rover)
+    });
 };
-const renderRovers = (state) => { //RR for sort
-    let { rovers, selectedRover } = state;
-
-    return rovers.map((rover)=> {
-        return `<input type="radio" name="${rover}" id="${rover}" onclick="setRover();" />
-                <label for="${rover}">${rover}</label>`
-    })
+const renderRovers = (rovers) => { //RR for sort
+    return rovers.map((rover) => {
+        return `<div class="radio-button-w-label">
+                <input class="radio-button" type="radio" name="${rover}" id="${rover}" value="" onload="loadRadioListener('${rover}')" />
+                <label class="radio-button-label" for="${rover}">${rover}</label>
+                </div>`
+    });
 };
 // create content
 const App = (state) => {
-    let { rovers, apod } = state;
-
+    let {rovers, apod, selectedRover} = state;
     return `
+            <div class="top-bar-top sticky">
+    <p id="top-bar-date-time"></p>
+</div>
+<div class="top-bar-second">
+    <div class="holder headline">
+        CTP Dev Mars Rover Dashboard
+    </div>
+</div>
      ${ImageOfTheDay(apod)}
         <main>
-            ${Greeting(store.user.name)}
+            ${Greeting(state.user.name)}
             <section>
-             
-              
+                <div class="radio-btn-group">
+                ${renderRovers(rovers, selectedRover)}
+  
+               </div>
+         
             </section>
         </main>
         <footer></footer>
@@ -56,8 +63,8 @@ const App = (state) => {
 };
 
 // listening for load event because page should load before any JS is called
-window.addEventListener('load', async () => {
-    await render(root, store)
+window.addEventListener('load', () => {
+    render(root, store)
 });
 
 // ------------------------------------------------------  COMPONENTS
@@ -82,27 +89,30 @@ const ImageOfTheDay = (apod) => {
     const today = new Date();
     const photodate = new Date(apod.date);
     console.log(photodate.getDate(), today.getDate());
-
     console.log(photodate.getDate() === today.getDate());
-    if (!apod || apod.date === today.getDate() ) {
-        getImageOfTheDay(store)
+    if ((!apod) || photodate.getDate() + 1 !== today.getDate()) {
+        console.log(apod);
+        getImageOfTheDay(store);
+        return;
     }
 
     // check if the photo of the day is actually type video!
     if (apod.media_type === "video") {
         return (`
             <header class="apod-header">
-            <p>See today's featured video <a href="${apod.url}">here</a></p>
-            <p>${apod.title}</p>
-            <p>${apod.explanation}</p>
+            <div class="top-bar-top sticky">
+                <h1>See today's featured video <a href="${apod.url}">here</a></h1>
+                <h3>${apod.title}</h3>
+                <p>${apod.explanation}</p>
             </header>
         `)
     } else {
         return (`
-            <header class="apod-header" style="background-image: url(" ${ apod.image.url } ")">
-            <h3 class="apod-h3-text">${apod.image.title}</h3>
-            ${!!apod.image.copyright ? `<p class="copy-right-credit">apod.image.copyright</p>` : undefined }
-            <header>
+            <header class="apod-header" style="background-image: url('${encodeURI(apod.url)}')">
+
+                <h3 class="apod-h3-text">${apod.title}</h3>
+                <p class="copy-right-credit">${apod.copyright} (C)</p>
+            </header>
         `)
     }
 };
@@ -111,16 +121,28 @@ const ImageOfTheDay = (apod) => {
 
 // Example API call
 const getImageOfTheDay = (state) => {
-    let { apod } = state;
+    let {apod} = state;
 
     fetch(`http://localhost:3000/get-apod`)
-        .then(res => res.json())
-        .then(apod => updateStore(store, { apod }));
-
-    return data
+        .then(async res => {
+            apod = await res.json();
+            updateStore(store, {apod})
+        });
 };
 
 
-const getLatestRoverImages = (state) => {
-    let { apod } = state;
+const getLatestRoverImages = (state, selectedRover) => {
+    let {roverData} = state;
+    const data = {rover: selectedRover};
+    fetch('http://localhost:3000/get-latest-rover-photos', {
+        method: 'post',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(async res => {
+        roverData = await res.json();
+        debugger
+        updateStore(store, {roverData, selectedRover});
+    });
 };

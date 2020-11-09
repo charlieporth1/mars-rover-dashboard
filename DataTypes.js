@@ -1,6 +1,6 @@
 const moment = require('moment')();
 const defaultDate = moment.format("YYYY-MM-DD");
-export class MarsRoverImage {
+class MarsRoverImage {
     id = 0;
     imgSrc = "";
     camera = new Camera();
@@ -14,12 +14,11 @@ export class MarsRoverImage {
         this.rover = new Rover(json.rover);
     }
 }
-export class Camera {
+class Camera {
     id = 0;
     name = "";
     roverId = 5;
     fullName = "";
-
     constructor(json) {
         this.id = json.id;
         this.name = json.name;
@@ -27,11 +26,10 @@ export class Camera {
         this.fullName = json.full_name;
     }
 }
-export class Rover {
+class Rover {
     id = 0;
     name = "";
     landingDate = defaultDate;
-
     constructor(json) {
         this.id = json.id;
         this.name = json.name;
