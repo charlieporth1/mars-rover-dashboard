@@ -4,9 +4,38 @@
 body {
     background: var(--background-light);
     font-family: Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-#app {
+header {
+    /* header styles */
+}
+
+footer {
+    /* footer styles */
+}
+
+/* -------------------  TABLET  --------------------- */
+@media (min-width: 768px) {
+    /* use mobile */
+}
+
+/* -------------------  DESKTOP  -------------------- */
+
+@media (min-width: 1224px) {
+    /* use mobile */
+}
+
+/* -------------------  LARGE SCREENS  -------------- */
+
+@media (min-width: 1824px) {
+    /* use mobile */
+}
+main {
+    flex: 1;
+    padding: 20px;
     display: grid;
     grid-auto-rows: minmax(150px, auto);
     grid-template-columns: auto;
@@ -122,4 +151,4 @@ button:focus {
     color: whitesmoke;
     font-family: Roboto, sans-serif;
 
-} 
+}

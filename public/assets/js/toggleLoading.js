@@ -10,7 +10,6 @@ function toggleLoader() {
         button.style.backgroundColor = 'rgba(131,131,131,0.88)';
     } else {
         button.addEventListener("click", async function callback() {
-            await onSubmit();
         });
         button.style.backgroundColor = '#006acb';
     }

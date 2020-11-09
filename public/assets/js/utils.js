@@ -48,3 +48,14 @@ function isEmpty(s) {
         return true;
     }
 }
+function kelvinToF(tempInKelvin) {
+    // Prompting the user to enter today's Kelvin temperature
+    const kelvin = tempInKelvin;
+
+// Celsius is 273 degrees less than Kelvin
+    const celsius = kelvin - 273;
+
+// Calculating Fahrenheit temperature to the nearest integer
+    let fahrenheit = Math.floor(celsius * (9/5) + 32);
+    return fahrenheit;
+}
