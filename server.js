@@ -81,10 +81,10 @@ app.post("/get-latest-rover-photos", async (req, res)=> {
     });
     if (jsonData) {
         const roverData = Map(jsonData);
-        const cleanedObjectData = roverData.map((json) => {
-            return new MarsRoverImage(json);
-        });
-        res.status(200).send(JSON.stringify(cleanedObjectData.toJSON()));
+        // const cleanedObjectData = roverData.map((json) => {
+        //     return new
+        // });
+        res.status(200).send(JSON.stringify(roverData));
     } else {
         res.status(500).end();
     }

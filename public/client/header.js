@@ -21,16 +21,15 @@ const render = (root, state) => {
         root.innerHTML = html;
     }
 };
-function loadRadioListener(rover)  {
-    const radioElement = document.getElementById(rover);
-    radioElement.addEventListener("click", () => {
-        getLatestRoverImages(store, rover)
-    });
-};
+
+function onClickRover(rover) {
+    getLatestRoverImages(store, rover)
+}
+
 const renderRovers = (rovers) => { //RR for sort
     return rovers.map((rover) => {
         return `<div class="radio-button-w-label">
-                <input class="radio-button" type="radio" name="${rover}" id="${rover}" value="" onload="loadRadioListener('${rover}')" />
+                <input class="radio-button" type="radio" name="${rover}" id="${rover}" value="" onclick="onClickRover('${rover}')" />
                 <label class="radio-button-label" for="${rover}">${rover}</label>
                 </div>`
     });
