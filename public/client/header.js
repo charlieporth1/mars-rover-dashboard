@@ -6,7 +6,13 @@ let store = {
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
 
 };
-
+const isEmpty = (v) => {
+    try {
+        return (v === undefined || v === null) || v.toString().trim() === "" || v === 0 || v.length > 0 || v === {};
+    } catch (e) {
+        return true;
+    }
+};
 // add our markup to the page
 const root = document.getElementById('root');
 
@@ -22,43 +28,85 @@ const render = (root, state) => {
     }
 };
 
+
+const renderDashboardHeader = (singlePhotoJson) => {
+    return `<div id="dashboard-header">
+                <h3 id="dashboard-rover-name">${capFirst(singlePhotoJson.rover.name)}</h3>
+                <div id="dashboard-header-data">
+                    <label id="status-label" for="dashboard-rover-status">Status</label>
+                    <p id="rover-status">${capFirst(singlePhotoJson.rover.status)}</p>
+                    <label id="launch-label" for="dashboard-rover-status">Launch Date</label>
+                    <p id="rover-launch">${singlePhotoJson.rover.launch_date}</p>
+                     <label id="landing-label" for="dashboard-rover-status">Landing Date</label>
+                    <p id="rover-landing">${singlePhotoJson.rover.landing_date}</p>   
+                </div>
+            </div>`;
+
+};
+const renderDashboardItems = (roverData) => {
+    const photoDataArray = Array.from(roverData);
+    return photoDataArray.map((photoJson, index) => {
+        return `<div id="dashboard-container-${index}">
+                        <img class="dashboard-img" src="${photoJson.img_src}" alt="${photoJson.camera.full_name}" />
+                         ${renderDashboardItemData(photoJson, index)}
+                </div>`
+    }).toString().replaceAll(",", "");
+};
+const renderDashboardItemData = (photoJson, i) => {
+    const createId = (id, isLabel = false) => {
+        return `dashboard-item-${id}-${isLabel ? 'label-' : ''}${i}`;
+    };
+    return `<div id="${createId('data')}">
+                <label id="${createId('earth-date', true)}" for="${createId('earth-date')}">Earth Date</label>
+                <p id="${createId('earth-date')}">${photoJson.earth_date}</p>
+                <label id="${createId('camera', true)}" for="${createId('camera')}">Camera</label>
+                <p id="${createId('camera')}">${photoJson.camera.full_name}</p>
+            </div>`;
+};
+
 function onClickRover(rover) {
-    getLatestRoverImages(store, rover)
+    getLatestRoverImages(store, rover);
+    const r = store.rovers.filter(r => r !== rover);
+    r.map(roverId => {
+        const roverElement = document.getElementById(roverId);
+        roverElement.checked = false;
+    });
+
 }
 
-const renderRovers = (rovers) => { //RR for sort
+const renderRovers = (rovers, selectedRover) => { //RR for sort
     return rovers.map((rover) => {
         return `<div class="radio-button-w-label">
-                <input class="radio-button" type="radio" name="${rover}" id="${rover}" value="" onclick="onClickRover('${rover}')" />
-                <label class="radio-button-label" for="${rover}">${rover}</label>
+                    <input class="radio-button" type="radio" ${rover === selectedRover ? "checked" : undefined} name="${rover}" id="${rover}" onclick="onClickRover('${rover}')" />
+                    <label class="radio-button-label" for="${rover}">${rover}</label>
                 </div>`
-    });
+    }).toString().replaceAll(",", "");
 };
 // create content
 const App = (state) => {
-    let {rovers, apod, selectedRover} = state;
+    let {rovers, apod, selectedRover, roverData} = state;
     return `
             <div class="top-bar-top sticky">
-    <p id="top-bar-date-time"></p>
-</div>
-<div class="top-bar-second">
-    <div class="holder headline">
-        CTP Dev Mars Rover Dashboard
-    </div>
-</div>
-     ${ImageOfTheDay(apod)}
-        <main>
-            ${Greeting(state.user.name)}
-            <section>
+                 <p id="top-bar-date-time"></p>
+            </div>
+            <div class="top-bar-second">
+            <div class="holder headline">
+                CTP Dev Mars Rover Dashboard
+            </div>
+            </div>
+            ${ImageOfTheDay(apod)}
+            <main>
+                ${Greeting(state.user.name)}
                 <div class="radio-btn-group">
                 ${renderRovers(rovers, selectedRover)}
-  
                </div>
-         
-            </section>
+                
+                ${!isEmpty(roverData[0]) ? renderDashboardHeader(roverData[0]) : "<div/>"}
+                ${!isEmpty(roverData) ? renderDashboardItems(roverData) : "<div/>"}
+        
         </main>
         <footer></footer>
-    `
+    `;
 };
 
 // listening for load event because page should load before any JS is called
@@ -141,7 +189,6 @@ const getLatestRoverImages = (state, selectedRover) => {
         }
     }).then(async res => {
         roverData = await res.json();
-        debugger
         updateStore(store, {roverData, selectedRover});
     });
 };

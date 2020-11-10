@@ -40,14 +40,6 @@ function titleCase(str) {
     // Directly return the joined string
     return splitStr.join(' ');
 }
-function isEmpty(s) {
-    const str = s.toString().trim();
-    try {
-        return !(str) || str === "" || str.length === 0;
-    } catch (e) {
-        return true;
-    }
-}
 function kelvinToF(tempInKelvin) {
     // Prompting the user to enter today's Kelvin temperature
     const kelvin = tempInKelvin;
@@ -58,4 +50,8 @@ function kelvinToF(tempInKelvin) {
 // Calculating Fahrenheit temperature to the nearest integer
     let fahrenheit = Math.floor(celsius * (9/5) + 32);
     return fahrenheit;
+}
+function capFirst(s) {
+    const str = s.toString().trim();
+    return str.charAt(0).toUpperCase() + str.slice(1,str.length)
 }

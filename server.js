@@ -80,10 +80,7 @@ app.post("/get-latest-rover-photos", async (req, res)=> {
         res.status(500).send()
     });
     if (jsonData) {
-        const roverData = Map(jsonData);
-        // const cleanedObjectData = roverData.map((json) => {
-        //     return new
-        // });
+        let roverData = List(jsonData.latest_photos);
         res.status(200).send(JSON.stringify(roverData));
     } else {
         res.status(500).end();

@@ -34,6 +34,7 @@
 .radio-btn-group {
     display: flex;
     flex-direction: row;
+    align-self: center;
 }
 .radio-button-w-label {
     margin: 30px;
