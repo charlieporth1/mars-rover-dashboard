@@ -6,7 +6,6 @@ body {
     font-family: Roboto, sans-serif;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
 }
 
 header {
@@ -16,22 +15,42 @@ header {
 footer {
     /* footer styles */
 }
-
+@media (min-width: 260px) and (max-width: 1250px) {
+    #dashboard-data {
+        display: grid;
+        grid-template-columns: repeat(1, max-content);
+        grid-auto-rows: max-content;
+    }
+}
 /* -------------------  TABLET  --------------------- */
-@media (min-width: 768px) {
-    /* use mobile */
+@media (min-width: 1251px) and (max-width: 1750px) {
+    #dashboard-data {
+        display: grid;
+        grid-template-columns: repeat(2, max-content);
+        grid-auto-rows: max-content;
+    }
 }
 
 /* -------------------  DESKTOP  -------------------- */
 
-@media (min-width: 1224px) {
+@media (min-width: 1751px) and (max-width: 2250px) {
     /* use mobile */
+    #dashboard-data {
+        display: grid;
+        grid-template-columns: repeat(3, max-content);
+        grid-auto-rows: max-content;
+    }
 }
 
 /* -------------------  LARGE SCREENS  -------------- */
 
-@media (min-width: 1824px) {
+@media (min-width: 2251px) {
     /* use mobile */
+    #dashboard-data {
+        display: grid;
+        grid-template-columns: repeat(4, max-content);
+        grid-auto-rows: max-content;
+    }
 }
 main {
     flex: 1;

@@ -30,7 +30,7 @@ const render = (root, state) => {
 
 
 const renderDashboardHeader = (singlePhotoJson) => {
-    return `<div id="dashboard-header">
+    return `<div class="m-design" id="dashboard-header">
                 <h3 id="dashboard-rover-name">${capFirst(singlePhotoJson.rover.name)}</h3>
                 <div id="dashboard-header-data">
                     <label id="status-label" for="dashboard-rover-status">Status</label>
@@ -46,15 +46,16 @@ const renderDashboardHeader = (singlePhotoJson) => {
 const renderDashboardItems = (roverData) => {
     const photoDataArray = Array.from(roverData);
     return photoDataArray.map((photoJson, index) => {
-        return `<div id="dashboard-container-${index}">
+        return `<div class="dashboard-container m-design" id="dashboard-container-${index}">
                         <img class="dashboard-img" src="${photoJson.img_src}" alt="${photoJson.camera.full_name}" />
                          ${renderDashboardItemData(photoJson, index)}
+                         <hr id="dashboard-line">
                 </div>`
     }).toString().replaceAll(",", "");
 };
 const renderDashboardItemData = (photoJson, i) => {
     const createId = (id, isLabel = false) => {
-        return `dashboard-item-${id}-${isLabel ? 'label-' : ''}${i}`;
+        return `dashboard-item-${isLabel ? 'label-' : ''}${id}-${i}`;
     };
     return `<div id="${createId('data')}">
                 <label id="${createId('earth-date', true)}" for="${createId('earth-date')}">Earth Date</label>
@@ -100,10 +101,10 @@ const App = (state) => {
                 <div class="radio-btn-group">
                 ${renderRovers(rovers, selectedRover)}
                </div>
-                
-                ${!isEmpty(roverData[0]) ? renderDashboardHeader(roverData[0]) : "<div/>"}
-                ${!isEmpty(roverData) ? renderDashboardItems(roverData) : "<div/>"}
-        
+                 ${!isEmpty(roverData[0]) ? renderDashboardHeader(roverData[0]) : "<div/>"}
+                <div id="dashboard-data">
+                ${!isEmpty(roverData[0]) ? renderDashboardItems(roverData) : "<div/>"}
+                </div>
         </main>
         <footer></footer>
     `;
