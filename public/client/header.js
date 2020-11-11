@@ -6,13 +6,6 @@ let store = {
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
 
 };
-const isEmpty = (v) => {
-    try {
-        return (v === undefined || v === null) || v.toString().trim() === "" || v === 0 || v.length > 0 || v === {};
-    } catch (e) {
-        return true;
-    }
-};
 // add our markup to the page
 const root = document.getElementById('root');
 
@@ -43,13 +36,15 @@ const renderDashboardHeader = (singlePhotoJson) => {
             </div>`;
 
 };
+
 const renderDashboardItems = (roverData) => {
     const photoDataArray = Array.from(roverData);
+
     return photoDataArray.map((photoJson, index) => {
         return `<div class="dashboard-container m-design" id="dashboard-container-${index}">
-                        <img class="dashboard-img" src="${photoJson.img_src}" alt="${photoJson.camera.full_name}" />
+                        <img class="dashboard-img" src="${photoJson.img_src}" alt="Mars Rover photo from camera ${photoJson.camera.full_name} on ${photoJson.earth_date} on earth"/>
+                        <i onclick="expandable('dashboard-item-data-${index}')" id="down-carrot-${index}" class="fas fa-caret-down down-carrot"></i>
                          ${renderDashboardItemData(photoJson, index)}
-                         <hr id="dashboard-line">
                 </div>`
     }).toString().replaceAll(",", "");
 };
@@ -57,23 +52,13 @@ const renderDashboardItemData = (photoJson, i) => {
     const createId = (id, isLabel = false) => {
         return `dashboard-item-${isLabel ? 'label-' : ''}${id}-${i}`;
     };
-    return `<div id="${createId('data')}">
+    return `<div style="display: none" id="${createId('data')}">
                 <label id="${createId('earth-date', true)}" for="${createId('earth-date')}">Earth Date</label>
                 <p id="${createId('earth-date')}">${photoJson.earth_date}</p>
                 <label id="${createId('camera', true)}" for="${createId('camera')}">Camera</label>
                 <p id="${createId('camera')}">${photoJson.camera.full_name}</p>
             </div>`;
 };
-
-function onClickRover(rover) {
-    getLatestRoverImages(store, rover);
-    const r = store.rovers.filter(r => r !== rover);
-    r.map(roverId => {
-        const roverElement = document.getElementById(roverId);
-        roverElement.checked = false;
-    });
-
-}
 
 const renderRovers = (rovers, selectedRover) => { //RR for sort
     return rovers.map((rover) => {
@@ -136,10 +121,7 @@ const ImageOfTheDay = (apod) => {
     // If image does not already exist, or it is not from today -- request it again
     const today = new Date();
     const photodate = new Date(apod.date);
-    console.log(photodate.getDate(), today.getDate());
-    console.log(photodate.getDate() === today.getDate());
     if ((!apod) || photodate.getDate() + 1 !== today.getDate()) {
-        console.log(apod);
         getImageOfTheDay(store);
         return;
     }

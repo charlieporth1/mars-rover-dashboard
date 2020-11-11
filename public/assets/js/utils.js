@@ -6,30 +6,30 @@ function getInputValue(inputId) {
     return String(window.document.getElementById(inputId.toString().trim()).value).trim()
 }
 
-function humanifyHeight(h) {
-    const height = parseFloat(h);
-    const ft = Math.floor(height / 12);
-    const inches = height % 12;
-    return ft !== 0 ? `${commafy(ft)} ft ${inches} inches`: `${inches} inches`;
-}
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
+
 function encodeId(id) {
     return id.toString().replace("\ ", "-").trim();
 }
+
 function decodeId(id) {
     return id.toString().replace("-", "\ ").trim();
 }
+
 function getUrl() {
     return document.URL;
 }
+
 function baseUrl() {
     return isProd() ? "/dinosaur.compare" : 'localhost:3000';
 }
+
 function isProd() {
     return getUrl().includes(".io") || getUrl().includes(".dev") || getUrl().includes(".com") || !getUrl().includes("localhost");
 }
+
 function titleCase(str) {
     let splitStr = str.toLowerCase().split(' ');
     for (let i = 0; i < splitStr.length; i++) {
@@ -40,18 +40,15 @@ function titleCase(str) {
     // Directly return the joined string
     return splitStr.join(' ');
 }
-function kelvinToF(tempInKelvin) {
-    // Prompting the user to enter today's Kelvin temperature
-    const kelvin = tempInKelvin;
-
-// Celsius is 273 degrees less than Kelvin
-    const celsius = kelvin - 273;
-
-// Calculating Fahrenheit temperature to the nearest integer
-    let fahrenheit = Math.floor(celsius * (9/5) + 32);
-    return fahrenheit;
-}
 function capFirst(s) {
     const str = s.toString().trim();
-    return str.charAt(0).toUpperCase() + str.slice(1,str.length)
+    return str.charAt(0).toUpperCase() + str.slice(1, str.length)
+}
+
+function isEmpty(v) {
+    try {
+        return (v === undefined || v === null) || v.length > 0|| v.toString().trim() === "" || v === {};
+    } catch (e) {
+        return true;
+    }
 }

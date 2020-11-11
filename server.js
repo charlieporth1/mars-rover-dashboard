@@ -1,7 +1,5 @@
-
-
 require("dotenv").config();
-const {Rover, MarsRoverImage, Camera}= require('./DataTypes.js');
+const {Rover, MarsRoverImage, Camera} = require('./DataTypes.js');
 const apiKey = process.env.NASA_API_KEY || '';
 const nasaBaseApi = process.env.NASA_API_BASE_URL || '';
 const port = process.env.BACKEND_PORT || 3000;
@@ -48,8 +46,9 @@ async function getData(url) {
 function generateMarsRoverUrl(q) {
     return `https://mars-photos.herokuapp.com/${q}`;
 }
+
 function generateNasaApiUrl(q) {
-   return `${nasaBaseApi}/${q}?api_key=${apiKey}`;
+    return `${nasaBaseApi}/${q}?api_key=${apiKey}`;
 }
 
 
@@ -69,7 +68,7 @@ app.get("/get-apod", async (req, res) => {
     }
 
 });
-app.post("/get-latest-rover-photos", async (req, res)=> {
+app.post("/get-latest-rover-photos", async (req, res) => {
     console.log(req);
     const requestRover = req.body.rover;
 
@@ -81,6 +80,16 @@ app.post("/get-latest-rover-photos", async (req, res)=> {
     });
     if (jsonData) {
         let roverData = List(jsonData.latest_photos);
+        roverData = roverData.sort((a, b) => {
+            const c1 = a.camera.name;
+            const c2 = b.camera.name;
+            return (c1 === c2) ? 1 : -1;
+        });
+        roverData = roverData.sort((a, b) => {
+            const d1 = Date.parse(a.earth_date);
+            const d2 = Date.parse(b.earth_date);
+            return (d1 < d2) ? 1 : -1;
+        });
         res.status(200).send(JSON.stringify(roverData));
     } else {
         res.status(500).end();

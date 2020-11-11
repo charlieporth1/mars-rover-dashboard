@@ -14,6 +14,10 @@
     margin: 10px;
     width: 100%;
     border-radius: 10px;
+    cursor: pointer;
+}
+.down-carrot {
+    text-align: center;
 }
 .dashboard-text-div {
 
@@ -54,6 +58,7 @@
     align-items: start;
     align-self: center;
     /*grid-gap: 30px;*/
+    height: 125px;
 }
 
 
