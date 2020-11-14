@@ -1,7 +1,5 @@
 *pem*
-*key*
 .idea/*
-node_modules/*
 .env*
 
 *lock*

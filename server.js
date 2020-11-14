@@ -95,5 +95,30 @@ app.post("/get-latest-rover-photos", async (req, res) => {
         res.status(500).end();
     }
 });
+
+app.post("/get-camera-photos", async (req, res) => {
+    console.log(req);
+    const requestRover = req.body.rover;
+    const requestCamera = req.body.camera;
+
+    const url = generateNasaApiUrl(`mars-photos/api/v1/rovers/${requestRover.toString().toLowerCase()}/latest_photos`);
+
+    const jsonData = await getData(url).catch((e) => {
+        console.log("get-apod error " + e);
+        res.status(500).send()
+    });
+    if (jsonData) {
+        let roverData = List(jsonData.latest_photos);
+        roverData = roverData.filter((rover) => rover.camera.name === requestCamera)
+        roverData = roverData.sort((a, b) => {
+            const d1 = Date.parse(a.earth_date);
+            const d2 = Date.parse(b.earth_date);
+            return (d1 < d2) ? 1 : -1;
+        });
+        res.status(200).send(JSON.stringify(roverData));
+    } else {
+        res.status(500).end();
+    }
+});
 app.listen(port);
 console.log("Server listening on " + port);

@@ -34,7 +34,6 @@ const renderDashboardHeader = (singlePhotoJson) => {
                     <p id="rover-landing">${singlePhotoJson.rover.landing_date}</p>   
                 </div>
             </div>`;
-
 };
 
 const renderDashboardItems = (roverData) => {
@@ -48,6 +47,7 @@ const renderDashboardItems = (roverData) => {
                 </div>`
     }).toString().replaceAll(",", "");
 };
+
 const renderDashboardItemData = (photoJson, i) => {
     const createId = (id, isLabel = false) => {
         return `dashboard-item-${isLabel ? 'label-' : ''}${id}-${i}`;
@@ -109,7 +109,6 @@ const Greeting = (name) => {
             <h1>Welcome, ${name}!</h1>
         `
     }
-
     return `
         <h1>Hello!</h1>
     `
