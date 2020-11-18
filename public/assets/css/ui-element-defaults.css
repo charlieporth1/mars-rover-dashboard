@@ -26,16 +26,25 @@
     --button-text-primary: #fff;
 }
 .radio-button {
-    width: 10px;
+    width: 25px;
+}
+.radio-button:hover {
+    color: var(--primary-light);
 }
 .radio-button-label {
-    font-size: 10px;
+    padding-top: 10px;
+    font-size: 18px;
 }
 .radio-btn-group {
     display: flex;
     flex-direction: row;
     align-self: center;
+    flex: 1;
 }
 .radio-button-w-label {
     margin: 30px;
+    flex-direction: column;
+    flex: 1;
+    display: flex;
+    align-items: center;
 }

@@ -1,29 +1,5 @@
-function commafy(num) {
-    return num.toString().trim().replace(/\B(?=(\d{3})+(?!\d))/g, ",").toLocaleString();
-}
-
-function getInputValue(inputId) {
-    return String(window.document.getElementById(inputId.toString().trim()).value).trim()
-}
-
-function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
-}
-
-function encodeId(id) {
-    return id.toString().replace("\ ", "-").trim();
-}
-
-function decodeId(id) {
-    return id.toString().replace("-", "\ ").trim();
-}
-
 function getUrl() {
     return document.URL;
-}
-
-function baseUrl() {
-    return isProd() ? "/dinosaur.compare" : 'localhost:3000';
 }
 
 function isProd() {
@@ -40,14 +16,33 @@ function titleCase(str) {
     // Directly return the joined string
     return splitStr.join(' ');
 }
+
 function capFirst(s) {
-    const str = s.toString().trim();
+    const str = (s || "   ").toString();
     return str.charAt(0).toUpperCase() + str.slice(1, str.length)
 }
 
 function isEmpty(v) {
     try {
-        return (v === undefined || v === null) || v.length > 0|| v.toString().trim() === "" || v === {};
+        const universal = (v === undefined || v === null);
+        if (universal) {
+            return universal;
+        }
+        switch (typeof v) {
+            case "number" || "bigint":
+                return v === 0;
+            case "boolean":
+                return universal;
+            case "string":
+                return (v || '').trim() === "" || (v || '').trim().length === 0;
+            case "object":
+                return v === {} || universal;
+            case "undefined":
+                return universal;
+            case "function":
+                return universal;
+
+        }
     } catch (e) {
         return true;
     }

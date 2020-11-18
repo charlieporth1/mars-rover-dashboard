@@ -1,6 +1,6 @@
 @import "font-default.css";
-@import "topbar.css";
 @import "ui-element-defaults.css";
+@import "loader.css";
 body {
     background: var(--background-light);
     font-family: Roboto, sans-serif;

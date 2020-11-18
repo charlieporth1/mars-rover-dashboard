@@ -1,6 +1,6 @@
 *pem*
 .idea/*
-.env*
+server/.env
 
 *lock*
 
@@ -75,7 +75,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+server/.env
 .env.test
 
 # parcel-bundler cache (https://parceljs.org/)
