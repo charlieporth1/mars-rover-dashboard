@@ -33,12 +33,14 @@ class Rover {
     name = "";
     landingDate = "";
     launchDate ="";
+    status = "inactive";
     constructor(json) {
         if (json) {
             this.id = json.id;
             this.name = json.name;
             this.landingDate = json.landing_date;
             this.launchDate = json.launch_date;
+            this.status = json.status;
         }
     }
 }

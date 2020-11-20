@@ -1,4 +1,3 @@
-
 let store = {
     user: {name: "World"},
     apod: {},
@@ -39,15 +38,17 @@ const renderDashboardHeader = (singlePhotoJson) => {
 };
 
 const renderDashboardItems = (roverData) => {
-    const photoDataArray =  Immutable.fromJS(roverData);
+    const photoDataArray = Array.from(roverData);
     console.log(photoDataArray);
-    return photoDataArray.map((photoJson, index) => {
+    let htmlstr = photoDataArray.map((photoJson, index) => {
         return `<div class="dashboard-container m-design" id="dashboard-container-${index}">
                         <img class="dashboard-img" src="${photoJson.imgSrc}" alt="Mars Rover photo from camera ${photoJson.camera.fullName} on ${photoJson.earthDate} on earth"/>
                         <i onclick="expandable('dashboard-item-data-${index}')" id="down-carrot-${index}" class="fas fa-caret-down down-carrot"></i>
                          ${renderDashboardItemData(photoJson, index)}
                 </div>`
-    }).toString().replace(",", "");
+    })//.toString().replace(",", "");
+    htmlstr = (typeof htmlstr.replaceAll === "function") ? htmlstr.replaceAll(",", "") : htmlstr;
+    return htmlstr;
 };
 
 const renderDashboardItemData = (photoJson, i) => {
@@ -63,12 +64,14 @@ const renderDashboardItemData = (photoJson, i) => {
 };
 
 const renderRovers = (rovers, selectedRover) => { //RR for sort
-    return rovers.map((rover) => {
+    let htmlstr = rovers.map((rover) => {
         return `<div class="radio-button-w-label">
                     <input class="radio-button" type="radio" ${rover === selectedRover ? "checked" : undefined} name="${rover}" id="${rover}" onclick="onClickRover('${rover}')" />
                     <label class="radio-button-label" for="${rover}">${rover}</label>
                 </div>`
     }).toString().replace(",", "");
+    htmlstr = (typeof htmlstr.replaceAll === "function") ? htmlstr.replaceAll(",", "") : htmlstr;
+    return htmlstr;
 };
 // create content
 const App = (state) => {
